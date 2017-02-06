@@ -22,6 +22,7 @@ class DemoController extends Controller
         $instagram->storeLatestMedia();
 
         $user = User::whereInstagramId($instagram->getUser()->id)->orderBy('id', 'desc')->first();
+        
         return view('demo', ['user' => $user, 'userJSON' => json_encode($user), 'instagramAccessToken' => $instagram->getAccessToken()]);
     }
 
@@ -38,6 +39,7 @@ class DemoController extends Controller
 
         $limit = 5;
         $offset = $request->get('offset', 0);
+        $tag = $request->get('tag', '');
 
         $media = DB::select(
             "
@@ -51,7 +53,7 @@ class DemoController extends Controller
                         created_at
                     FROM instagram_media
                     WHERE instagram_id=?         
-                    AND tags LIKE '%\"spoiled\"%'
+                    AND tags LIKE '%\"" . $tag . "\"%'
                 ) feed
                 ORDER BY created_at DESC
                 LIMIT ? OFFSET ?
@@ -65,7 +67,7 @@ class DemoController extends Controller
 
         return view('demoFeed', [
             'media' => $media,
-            'nextUrl' => URL::to('/demo/feed?offset=' . ($offset + $limit)),
+            'nextUrl' => URL::to('/demo/feed?tag=' . $tag . 'offset=' . ($offset + $limit)),
         ]);
     }
 }
