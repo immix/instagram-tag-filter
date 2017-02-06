@@ -1,0 +1,8 @@
+/* Muginstagram */
+/* uxiliary.com */
+/* humanstxt.org */
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: jQuery, Foundation, Compass
+  Software: Sketch, Sublime, Git
